@@ -10,6 +10,9 @@ import de.fraunhofer.iosb.ilt.sta.service.SensorThingsService;
 import de.fraunhofer.iosb.repository.RoleRepository;
 import de.fraunhofer.iosb.repository.RoomRepository;
 import de.fraunhofer.iosb.repository.UserRepository;
+import de.fraunhofer.iosb.smartbuilding.SbFactory;
+import de.fraunhofer.iosb.smartbuilding.SbRoom;
+
 import org.geojson.Point;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -23,6 +26,7 @@ import java.net.URI;
 import java.net.URISyntaxException;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Component
@@ -91,6 +95,7 @@ public class Initialization  implements CommandLineRunner
         addUserForRoom(r18, "mario ", "kusek", "Mario Kušek", "mario.kusek@fer.hr", "6");
         addUserForRoom(r18, "marko", "pavelic", "Marko Pavelić", "marko.pavelic@fer.hr", "7");
 
+        /* use the following code only during testing
         service = Constants.createService();
         Constants.deleteAll(service);
 
@@ -98,6 +103,13 @@ public class Initialization  implements CommandLineRunner
         {
             addToSensorThingsServer(room);
             repoRoom.save(room);
+        }
+        */
+        SbFactory.initialize(Constants.getService());
+        List<SbRoom> rl = SbFactory.getRoomList();
+        for (SbRoom sbr : rl) {
+        	Room newRoom = new Room(sbr.getName(), sbr.getDescription(), sbr.getToken());
+        	repoRoom.save(newRoom);
         }
     }
 
