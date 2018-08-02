@@ -21,7 +21,10 @@ import org.apache.http.impl.client.HttpClients;
  */
 public class Constants
 {
-    public static String BASE_URL = "http://localhost:8080/SensorThingsServer-v1.1/v1.0";
+    //public static String BASE_URL = "http://localhost:8080/FROST-Server/v1.0";
+    public static String BASE_URL = "http://symbiote.iosb.fraunhofer.de:8090/FROST-Server/v1.0";
+    public static SensorThingsService service = null;
+
     public static boolean USE_OPENID_CONNECT = false;
     public static boolean USE_BASIC_AUTH = false;
     public static String TOKEN_SERVER_URL = "http://localhost:8180/auth/realms/sensorThings/protocol/openid-connect/token";
@@ -61,6 +64,13 @@ public class Constants
             service.setClient(httpclient);
         }
         return service;
+    }
+    
+    public static SensorThingsService getService() throws MalformedURLException, URISyntaxException {
+    	if (service == null) {
+    		service = createService();
+    	}
+    	return service;
     }
 
     public static void deleteAll(SensorThingsService sts) throws ServiceFailureException {

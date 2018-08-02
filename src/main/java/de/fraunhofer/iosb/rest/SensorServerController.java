@@ -36,7 +36,7 @@ public class SensorServerController
     public SensorServerController(RoomRepository repoRoom)
     {
         try {
-            service = Constants.createService();
+            service = Constants.getService();
         } catch (MalformedURLException e) {
             e.printStackTrace();
         } catch (URISyntaxException e) {

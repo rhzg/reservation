@@ -319,7 +319,7 @@ public class RoomServiceImplementation implements RoomService
     {
         SensorThingsService service = null;
         try {
-            service = Constants.createService();
+            service = Constants.getService();
         } catch (MalformedURLException | URISyntaxException e) {
             e.printStackTrace();
         }
@@ -340,7 +340,7 @@ public class RoomServiceImplementation implements RoomService
         {
             for(String ble : room.getBleIds())
             {
-                UnitOfMeasurement um1 = new UnitOfMeasurement("Metar", "m", "http://www.qudt.org/qudt/owl/1.0.0/unit/Instances.html/Meter");
+                UnitOfMeasurement um1 = new UnitOfMeasurement("Meter", "m", "http://www.qudt.org/qudt/owl/1.0.0/unit/Instances.html/Meter");
                 Datastream ds1 = new Datastream("datastream name 1", "datastream 1", "http://www.opengis.net/def/observationType/OGC-OM/2.0/OM_Measurement", um1);
                 ds1.setObservedProperty(new ObservedProperty("Proximity m", new URI("http://www.qudt.org/qudt/owl/1.0.0/unit/Instances.html/property"), "proximity"));
                 ds1.setSensor(new Sensor(ble, "Ble beacon of room", "application/pdf", "BLE proximity sensor"));
