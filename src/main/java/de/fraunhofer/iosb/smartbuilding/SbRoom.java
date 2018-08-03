@@ -1,6 +1,11 @@
 package de.fraunhofer.iosb.smartbuilding;
 
+import de.fraunhofer.iosb.ilt.sta.model.Thing;
+
+// TODO for setter update the Thing object as well
+
 public class SbRoom {
+	private Thing myThing;
 	private String name;
 	private String description;
 	private String roomNr;
@@ -50,5 +55,13 @@ public class SbRoom {
 
 	public void setToken(String token) {
 		this.token = token;
+	}
+
+	public Thing getMyThing() {
+		return myThing;
+	}
+
+	public void setMyThing(Thing myThing) {
+		this.myThing = myThing;
 	}
 }

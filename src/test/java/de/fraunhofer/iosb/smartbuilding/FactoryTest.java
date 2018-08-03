@@ -33,7 +33,6 @@ public class FactoryTest {
 			}
 
 		} catch (ServiceFailureException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
@@ -50,14 +49,15 @@ public class FactoryTest {
 
 		try {
 			SbRoom room = SbFactory.getRoom("S012");
-
 			String s = room.toString();
 			assertNotNull("room object should have a string representation", s);
+			
+			room = SbFactory.getRoom("XYZ000");
+			assertNull("romm object should not be found",room);
 
 		} catch (
 
 		ServiceFailureException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
