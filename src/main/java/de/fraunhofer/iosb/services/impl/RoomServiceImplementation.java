@@ -268,7 +268,6 @@ public class RoomServiceImplementation implements RoomService
             user.setCurentRoom(null);
         }
         userRepository.save(users);
-        //TODO provjera je li unutra maknuti  sve i dodati  samo da se napravi pravi repo pozov
 
         users = (List<User>) userRepository.findAll();
         for(User user: users)
@@ -312,10 +311,10 @@ public class RoomServiceImplementation implements RoomService
     {
         room.setRoomID(id);
         roomRepository.save(room);
-        //TODO UPDATING IN SENROT THINGS
+        //TODO UPDATING IN SENSOR THINGS SERVER
     }
 
-    private Long addToSensorThingsServer(Room room) throws URISyntaxException, ServiceFailureException, MalformedURLException
+    private Id addToSensorThingsServer(Room room) throws URISyntaxException, ServiceFailureException, MalformedURLException
     {
         SensorThingsService service = null;
         try {
@@ -346,7 +345,12 @@ public class RoomServiceImplementation implements RoomService
                 ds1.setSensor(new Sensor(ble, "Ble beacon of room", "application/pdf", "BLE proximity sensor"));
                 ds1.setThing(thing);
                 service.create(ds1);
-                bleBeaconMap.put(ble, ds1.getId());
+                
+                Object idValue = ds1.getId().getValue();
+                if (idValue instanceof IdLong) {
+                	IdLong idl = (IdLong) idValue;
+                    bleBeaconMap.put(ble, idl.value);
+                }
             }
         }
         room.setBleDataStream(bleBeaconMap);

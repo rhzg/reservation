@@ -143,7 +143,14 @@ public class Initialization  implements CommandLineRunner
                 ds1.setSensor(new Sensor(ble, "Ble beacon of room", "application/pdf", "BLE proximity sensor"));
                 ds1.setThing(thing);
                 service.create(ds1);
+                Object idValue = ds1.getId().getValue();
+                if (idValue instanceof IdLong) {
+                	IdLong idl = (IdLong) idValue;
+                    bleBeaconMap.put(ble, idl.value);
+                }
+                /* what to do if id is not a IdLong?
                 bleBeaconMap.put(ble, ds1.getId());
+                */
             }
         }
         room.setBleDataStream(bleBeaconMap);
