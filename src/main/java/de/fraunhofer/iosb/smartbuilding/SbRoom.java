@@ -67,6 +67,7 @@ public class SbRoom {
 	}
 	
 	public void assignProximityDatastream (Datastream ds) {
+		ds.setThing(myThing);
 		myThing.getDatastreams().add(ds);
 	}
 }
