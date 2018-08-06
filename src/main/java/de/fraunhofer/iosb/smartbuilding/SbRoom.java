@@ -1,5 +1,6 @@
 package de.fraunhofer.iosb.smartbuilding;
 
+import de.fraunhofer.iosb.ilt.sta.model.Datastream;
 import de.fraunhofer.iosb.ilt.sta.model.Thing;
 
 // TODO for setter update the Thing object as well
@@ -63,5 +64,9 @@ public class SbRoom {
 
 	public void setMyThing(Thing myThing) {
 		this.myThing = myThing;
+	}
+	
+	public void assignProximityDatastream (Datastream ds) {
+		myThing.getDatastreams().add(ds);
 	}
 }

@@ -1,0 +1,30 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-spring4-4.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	  xmlns:th="http://www.thymeleaf.org">
+<head>
+		<meta charset="UTF-8"/>
+		<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    	<meta name="viewport" content="width=device-width, initial-scale=1"/>
+		<title>Assign Rooms</title>
+		<link th:href="@{https://cdn.jsdelivr.net/bootstrap/3.3.6/css/bootstrap.min.css}" rel="stylesheet"/> 
+		<link rel="stylesheet"  href="../css/style.css"/>
+</head>	
+<body>
+	<h1>Beacon List</h1>
+
+	<table class="table table-bordered table-hover">
+		<tr>
+			<th>Beacon</th>
+			<th>Description</th>
+			<th>Room</th>
+		</tr>
+		<tr th:each="beacon : ${beacons}">
+			<td th:text="${beacon.name}"></td>
+			<td th:text="${beacon.description}"></td>
+			<td th:text="${beacon.room}"></td>
+			<td><a href="@{'/assignRoom'(id=${beacon.name})}">assign room</a></td>
+		</tr>
+	</table>
+
+</body>
+</html>
