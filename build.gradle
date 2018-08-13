@@ -18,6 +18,7 @@ version = '0.0.1-SNAPSHOT'
 sourceCompatibility = 1.8
 
 repositories {
+    mavenLocal()
 	mavenCentral()
 	maven {
 		url "https://jcenter.bintray.com"
@@ -27,6 +28,7 @@ repositories {
 
 dependencies {
 	compile('de.fraunhofer.iosb.ilt:FROST-Client:0.18')
+	compile('de.fraunhofer.iosb:SmartBuildingAPI:0.0.1-SNAPSHOT')
 	compile('org.springframework.boot:spring-boot-starter-actuator')
 	compile('org.springframework.boot:spring-boot-starter-data-jpa')
 	compile('org.springframework.boot:spring-boot-starter-data-rest')
