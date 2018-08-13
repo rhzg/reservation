@@ -21,7 +21,7 @@
 		<tr th:each="beacon : ${beacons}">
 			<td th:text="${beacon.name}"></td>
 			<td th:text="${beacon.description}"></td>
-			<td th:text="${beacon.room}"></td>
+			<td th:text="${beacon.roomName}"></td>
 			<td><a href="@{'/assignRoom'(id=${beacon.name})}">assign room</a></td>
 		</tr>
 	</table>
