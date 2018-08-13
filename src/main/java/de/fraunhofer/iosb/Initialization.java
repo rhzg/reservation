@@ -1,17 +1,13 @@
 package de.fraunhofer.iosb;
 
-import de.fraunhofer.iosb.entity.Role;
-import de.fraunhofer.iosb.entity.Room;
-import de.fraunhofer.iosb.entity.User;
-import de.fraunhofer.iosb.ilt.sta.ServiceFailureException;
-import de.fraunhofer.iosb.ilt.sta.model.*;
-import de.fraunhofer.iosb.ilt.sta.model.ext.UnitOfMeasurement;
-import de.fraunhofer.iosb.ilt.sta.service.SensorThingsService;
-import de.fraunhofer.iosb.repository.RoleRepository;
-import de.fraunhofer.iosb.repository.RoomRepository;
-import de.fraunhofer.iosb.repository.UserRepository;
-import de.fraunhofer.iosb.smartbuilding.SbFactory;
-import de.fraunhofer.iosb.smartbuilding.SbRoom;
+import java.net.MalformedURLException;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.transaction.Transactional;
 
 import org.geojson.Point;
 import org.slf4j.Logger;
@@ -20,18 +16,26 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
-import javax.transaction.Transactional;
-import java.net.MalformedURLException;
-import java.net.URI;
-import java.net.URISyntaxException;
-
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import de.fraunhofer.iosb.entity.Role;
+import de.fraunhofer.iosb.entity.Room;
+import de.fraunhofer.iosb.entity.User;
+import de.fraunhofer.iosb.ilt.sta.ServiceFailureException;
+import de.fraunhofer.iosb.ilt.sta.model.Datastream;
+import de.fraunhofer.iosb.ilt.sta.model.IdLong;
+import de.fraunhofer.iosb.ilt.sta.model.Location;
+import de.fraunhofer.iosb.ilt.sta.model.ObservedProperty;
+import de.fraunhofer.iosb.ilt.sta.model.Sensor;
+import de.fraunhofer.iosb.ilt.sta.model.Thing;
+import de.fraunhofer.iosb.ilt.sta.model.ext.UnitOfMeasurement;
+import de.fraunhofer.iosb.ilt.sta.service.SensorThingsService;
+import de.fraunhofer.iosb.repository.RoleRepository;
+import de.fraunhofer.iosb.repository.RoomRepository;
+import de.fraunhofer.iosb.repository.UserRepository;
+import de.fraunhofer.iosb.smartbuilding.SbFactory;
+import de.fraunhofer.iosb.smartbuilding.SbRoom;
 
 @Component
-public class Initialization  implements CommandLineRunner
-{
+public class Initialization implements CommandLineRunner {
     private static final Logger LOG = LoggerFactory.getLogger(Initialization.class);
 
     private RoomRepository repoRoom;
@@ -40,8 +44,7 @@ public class Initialization  implements CommandLineRunner
     private SensorThingsService service;
 
     @Autowired
-    public Initialization(RoomRepository repoRoom, UserRepository userRepo, RoleRepository roleRepo)
-    {
+    public Initialization(RoomRepository repoRoom, UserRepository userRepo, RoleRepository roleRepo) {
         this.roleRepo = roleRepo;
         this.repoRoom = repoRoom;
         this.userRepo = userRepo;
@@ -65,7 +68,8 @@ public class Initialization  implements CommandLineRunner
         Room all = new Room("all", "http://localhost:8080/rooms/all", "neki token");
         repoRoom.save(all);
 
-        User userAdmin = new User("admin@fer.hr", "$2a$06$/TmUi.A5awl8wBaqkjbHtuInaEGn8ly4onEwPkK/dBy3YK6MXWebq", "Admin Admin", "admin@fer.hr", "0");
+        User userAdmin = new User("admin@fer.hr", "$2a$06$/TmUi.A5awl8wBaqkjbHtuInaEGn8ly4onEwPkK/dBy3YK6MXWebq",
+                "Admin Admin", "admin@fer.hr", "0");
         userRepo.save(userAdmin);
 
         User userAdmin1 = new User("admin1@fer.hr", "admin1", "Viseslav Admin", "admin@fer.hr", "0");
@@ -95,21 +99,18 @@ public class Initialization  implements CommandLineRunner
         addUserForRoom(r18, "mario ", "kusek", "Mario Kušek", "mario.kusek@fer.hr", "6");
         addUserForRoom(r18, "marko", "pavelic", "Marko Pavelić", "marko.pavelic@fer.hr", "7");
 
-        /* use the following code only during testing
-        service = Constants.createService();
-        Constants.deleteAll(service);
-
-        for(Room room : repoRoom.findAll())
-        {
-            addToSensorThingsServer(room);
-            repoRoom.save(room);
-        }
-        */
+        /*
+         * use the following code only during testing service =
+         * Constants.createService(); Constants.deleteAll(service);
+         * 
+         * for(Room room : repoRoom.findAll()) { addToSensorThingsServer(room);
+         * repoRoom.save(room); }
+         */
         SbFactory.initialize(Constants.getService());
         List<SbRoom> rl = SbFactory.getRoomList();
         for (SbRoom sbr : rl) {
-        	Room newRoom = new Room(sbr.getName(), sbr.getDescription(), sbr.getToken());
-        	repoRoom.save(newRoom);
+            Room newRoom = new Room(sbr.getName(), sbr.getDescription(), sbr.getToken());
+            repoRoom.save(newRoom);
         }
     }
 
@@ -119,8 +120,8 @@ public class Initialization  implements CommandLineRunner
         userRepo.save(userBB);
     }
 
-    private void addToSensorThingsServer(Room room) throws URISyntaxException, ServiceFailureException, MalformedURLException
-    {
+    private void addToSensorThingsServer(Room room)
+            throws URISyntaxException, ServiceFailureException, MalformedURLException {
         Map<String, Long> bleBeaconMap = new HashMap<>();
         Thing thing = new Thing();
         thing.setName(room.getRoomID());
@@ -135,26 +136,27 @@ public class Initialization  implements CommandLineRunner
 
         service.create(thing);
         {
-            for(String ble : room.getBleIds())
-            {
-                UnitOfMeasurement um1 = new UnitOfMeasurement("Meter", "m", "http://www.qudt.org/qudt/owl/1.0.0/unit/Instances.html/Meter");
-                Datastream ds1 = new Datastream("datastream name 1", "datastream 1", "http://www.opengis.net/def/observationType/OGC-OM/2.0/OM_Measurement", um1);
-                ds1.setObservedProperty(new ObservedProperty("Proximity m", new URI("http://www.qudt.org/qudt/owl/1.0.0/unit/Instances.html/property"), "proximity"));
+            for (String ble : room.getBleIds()) {
+                UnitOfMeasurement um1 = new UnitOfMeasurement("Meter", "m",
+                        "http://www.qudt.org/qudt/owl/1.0.0/unit/Instances.html/Meter");
+                Datastream ds1 = new Datastream("datastream name 1", "datastream 1",
+                        "http://www.opengis.net/def/observationType/OGC-OM/2.0/OM_Measurement", um1);
+                ds1.setObservedProperty(new ObservedProperty("Proximity m",
+                        new URI("http://www.qudt.org/qudt/owl/1.0.0/unit/Instances.html/property"), "proximity"));
                 ds1.setSensor(new Sensor(ble, "Ble beacon of room", "application/pdf", "BLE proximity sensor"));
                 ds1.setThing(thing);
                 service.create(ds1);
                 Object idValue = ds1.getId().getValue();
                 if (idValue instanceof IdLong) {
-                	IdLong idl = (IdLong) idValue;
+                    IdLong idl = (IdLong) idValue;
                     bleBeaconMap.put(ble, idl.value);
                 }
-                /* what to do if id is not a IdLong?
-                bleBeaconMap.put(ble, ds1.getId());
-                */
+                /*
+                 * what to do if id is not a IdLong? bleBeaconMap.put(ble, ds1.getId());
+                 */
             }
         }
         room.setBleDataStream(bleBeaconMap);
     }
-
 
 }
