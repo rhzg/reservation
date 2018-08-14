@@ -12,17 +12,12 @@ import de.fraunhofer.iosb.smartbuilding.SbFactory;
 @Service
 public class BeaconServiceImplementation implements BeaconService {
 
-	@Override
-	public List<SbBeacon> getBeacons() {
-		// TODO Auto-generated method stub
-		List<SbBeacon> beaconList = null;
-		try {
-			beaconList = SbFactory.getBeaconList();
-		} catch (ServiceFailureException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		return beaconList;
-	}
+    @Override
+    public List<SbBeacon> getBeacons() {
+        // TODO Auto-generated method stub
+        List<SbBeacon> beaconList = null;
+        beaconList = SbFactory.getBeaconList();
+        return beaconList;
+    }
 
 }

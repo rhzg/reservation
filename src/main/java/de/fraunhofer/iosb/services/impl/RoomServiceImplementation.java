@@ -301,10 +301,11 @@ public class RoomServiceImplementation implements RoomService {
         roomRepository.save(room);
         // TODO UPDATING IN SENSOR THINGS SERVER
         SbRoom sbRoom;
-        sbRoom = SbFactory.findOrCreateSbRoom(id, room.getName());
+        sbRoom = SbFactory.findRoom(id);
         sbRoom.setDescription(room.getName());
         for (String ble : room.getBleIds()) {
             SbBeacon beacon = SbFactory.findOrCreateSbBeacon(ble, room.getName());
+            sbRoom.assignBeacon(beacon);
         }
     }
 
