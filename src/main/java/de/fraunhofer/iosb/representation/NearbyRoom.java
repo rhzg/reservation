@@ -40,7 +40,7 @@ public class NearbyRoom implements Serializable
         this.id = id;
     }
 
-    public String getProximityUUID() {
+    public String getUUID() {
         return proximityUUID;
     }
 

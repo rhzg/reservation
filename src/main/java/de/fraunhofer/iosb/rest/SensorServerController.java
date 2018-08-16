@@ -52,7 +52,7 @@ public class SensorServerController
     public void addDistanceMeasurement(ArrayList<NearbyRoom>  rooms, User user) throws ServiceFailureException, URISyntaxException {
         for (NearbyRoom nearbyRoom : rooms)
         {
-            SbBeacon beacon = SbFactory.findByMajorMinor (nearbyRoom.getMajor(), nearbyRoom.getMinor());
+            SbBeacon beacon = SbFactory.findByBeaconIds (nearbyRoom.getUUID(), nearbyRoom.getMajor(), nearbyRoom.getMinor());
             if (beacon != null) {
                 beacon.addProximityObservation(nearbyRoom.getDistance(), createHashUsername(user.getUsername()));
             }
