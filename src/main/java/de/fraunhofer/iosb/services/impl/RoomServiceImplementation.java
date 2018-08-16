@@ -69,7 +69,7 @@ public class RoomServiceImplementation implements RoomService {
         Map<String, Double> roomDistance = new HashMap<>();
 
         for (NearbyRoom nearbyRoom : request.getIds()) {
-            String id = nearbyRoom.getId();
+          String id = nearbyRoom.getProximityUUID() + ":" + nearbyRoom.getMajor() + ":" + nearbyRoom.getMinor();  
             Room room = roomRepository.findByBleIds(id);
             if (room == null) {
                 continue;

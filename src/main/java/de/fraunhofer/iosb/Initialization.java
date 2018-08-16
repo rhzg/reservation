@@ -4,6 +4,7 @@ import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 
@@ -31,6 +32,7 @@ import de.fraunhofer.iosb.ilt.sta.service.SensorThingsService;
 import de.fraunhofer.iosb.repository.RoleRepository;
 import de.fraunhofer.iosb.repository.RoomRepository;
 import de.fraunhofer.iosb.repository.UserRepository;
+import de.fraunhofer.iosb.smartbuilding.SbBeacon;
 import de.fraunhofer.iosb.smartbuilding.SbFactory;
 import de.fraunhofer.iosb.smartbuilding.SbRoom;
 
@@ -110,6 +112,12 @@ public class Initialization implements CommandLineRunner {
         List<SbRoom> rl = SbFactory.getRoomList();
         for (SbRoom sbr : rl) {
             Room newRoom = new Room(sbr.getName(), sbr.getDescription(), sbr.getToken());
+            for (SbBeacon b: sbr.getAssignedBeacons()) {
+              String beaconName = b.getUUID() + ":" + b.getMajor() + ":" + b.getMinor();
+//              String beaconName = b.getMajor() + ":" + b.getMinor();
+//                String beaconName = b.getUUID();
+                newRoom.getBleIds().add(beaconName);
+            }
             repoRoom.save(newRoom);
         }
     }
@@ -151,9 +159,6 @@ public class Initialization implements CommandLineRunner {
                     IdLong idl = (IdLong) idValue;
                     bleBeaconMap.put(ble, idl.value);
                 }
-                /*
-                 * what to do if id is not a IdLong? bleBeaconMap.put(ble, ds1.getId());
-                 */
             }
         }
         room.setBleDataStream(bleBeaconMap);

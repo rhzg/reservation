@@ -10,6 +10,9 @@ import de.fraunhofer.iosb.ilt.sta.model.Thing;
 import de.fraunhofer.iosb.ilt.sta.service.SensorThingsService;
 import de.fraunhofer.iosb.repository.RoomRepository;
 import de.fraunhofer.iosb.representation.NearbyRoom;
+import de.fraunhofer.iosb.smartbuilding.SbBeacon;
+import de.fraunhofer.iosb.smartbuilding.SbFactory;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
@@ -49,17 +52,9 @@ public class SensorServerController
     public void addDistanceMeasurement(ArrayList<NearbyRoom>  rooms, User user) throws ServiceFailureException, URISyntaxException {
         for (NearbyRoom nearbyRoom : rooms)
         {
-            Room room = repoRoom.findByBleIds(nearbyRoom.getId());
-            Map<String, Object> stringMap = new HashMap<>();
-            stringMap.put("user", createHashUsername(user.getUsername()));
-
-            Datastream datastream = service.datastreams().find(room.getBleDataStream().get(nearbyRoom.getId()));
-            if(datastream != null)
-            {
-                Observation observation = new Observation(nearbyRoom.getDistance(), ZonedDateTime.now());
-                observation.setDatastream(datastream);
-                observation.setParameters(stringMap);
-                service.create(observation);
+            SbBeacon beacon = SbFactory.findByMajorMinor (nearbyRoom.getMajor(), nearbyRoom.getMinor());
+            if (beacon != null) {
+                beacon.addProximityObservation(nearbyRoom.getDistance(), createHashUsername(user.getUsername()));
             }
         }
     }

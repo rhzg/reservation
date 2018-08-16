@@ -11,6 +11,10 @@ public class NearbyRoom implements Serializable
     private double distance;
 
     private String id;
+    private String proximityUUID;
+    private String minor;
+    private String major;  
+    
 
     public NearbyRoom() {
     }
@@ -34,5 +38,29 @@ public class NearbyRoom implements Serializable
 
     public void setId(String id) {
         this.id = id;
+    }
+
+    public String getProximityUUID() {
+        return proximityUUID;
+    }
+
+    public void setProximityUUID(String proximityUUID) {
+        this.proximityUUID = proximityUUID;
+    }
+
+    public String getMinor() {
+        return minor;
+    }
+
+    public void setMinor(String minor) {
+        this.minor = minor;
+    }
+
+    public String getMajor() {
+        return major;
+    }
+
+    public void setMajor(String major) {
+        this.major = major;
     }
 }
