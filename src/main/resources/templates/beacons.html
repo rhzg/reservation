@@ -10,21 +10,24 @@
 		<link rel="stylesheet"  href="../css/style.css"/>
 </head>	
 <body>
-	<h1>Beacon List</h1>
+	<!--/*/ <th:block th:include="header :: header"></th:block> /*/-->
+	<div class="table-responsive">
+		<table class="table table-bordered table-hover">
+			<tr><th>Beacon</th>
+				<th>Description</th>
+				<th>Room</th>
+			</tr>
+			<tr th:each="beacon : ${beacons}">
+				<td th:text="${beacon.name}"></td>
+				<td th:text="${beacon.description}"></td>
+				<td th:text="${beacon.roomName}"></td>
+				<td><a th:href="@{/assignRoom(name=${beacon.name})}">assign room</a></td>
+			</tr>
+		</table>
+	</div>
 
-	<table class="table table-bordered table-hover">
-		<tr>
-			<th>Beacon</th>
-			<th>Description</th>
-			<th>Room</th>
-		</tr>
-		<tr th:each="beacon : ${beacons}">
-			<td th:text="${beacon.name}"></td>
-			<td th:text="${beacon.description}"></td>
-			<td th:text="${beacon.roomName}"></td>
-			<td><a href="@{'/assignRoom'(id=${beacon.name})}">assign room</a></td>
-		</tr>
-	</table>
-
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>	
+<script src="../js/popup.js"></script>
 </body>
 </html>
