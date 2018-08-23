@@ -16,12 +16,13 @@
 			<tr><th>Beacon</th>
 				<th>Description</th>
 				<th>Room</th>
+				<th>Action</th>
 			</tr>
 			<tr th:each="beacon : ${beacons}">
-				<td th:text="${beacon.name}"></td>
+				<td th:text="${beacon.id}"></td>
 				<td th:text="${beacon.description}"></td>
 				<td th:text="${beacon.roomName}"></td>
-				<td><a th:href="@{/assignRoom(name=${beacon.name})}">assign room</a></td>
+				<td><a th:href="@{/assignRoom(name=${beacon.id})}">assign room</a></td>
 			</tr>
 		</table>
 	</div>
