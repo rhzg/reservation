@@ -9,4 +9,6 @@ public interface BeaconService {
 	List<SbBeacon> getBeacons();
 	
 	void assignToRoom(String beaconId, String roomId);
+	
+	void delete(String beaconId);
 }

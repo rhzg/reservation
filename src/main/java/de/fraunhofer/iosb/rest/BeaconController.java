@@ -47,4 +47,11 @@ public class BeaconController {
 		
 		return "redirect:/web/beacons";
 	}
+	
+	@RequestMapping("/web/beacons/delete/{id}")
+	public String deleteBeacon(@PathVariable("id") String id, Model model) {
+		beaconService.delete(id);
+		
+		return "redirect:/web/beacons";
+	}
 }

@@ -22,7 +22,8 @@
 				<td th:text="${beacon.id}"></td>
 				<td th:text="${beacon.description}"></td>
 				<td th:text="${beacon.roomName}"></td>
-				<td><a th:href="@{/assignRoom(name=${beacon.id})}">assign room</a></td>
+				<td><a role="button" th:href="@{/assignRoom(name=${beacon.id})}" class="btn btn-primary">assign room</a>
+				<a role="button" th:href="@{/web/beacons/delete/{id}(id=${beacon.id})}" onclick="return confirm('Are you sure you want to delete this item?');" class="btn btn-warning">delete</a></td>
 			</tr>
 		</table>
 	</div>
