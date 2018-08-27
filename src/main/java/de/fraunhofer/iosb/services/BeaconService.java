@@ -8,5 +8,5 @@ import de.fraunhofer.iosb.smartbuilding.SbBeacon;
 public interface BeaconService {
 	List<SbBeacon> getBeacons();
 	
-	void assignToRoom(String beaconId, String roomId);
+	SbBeacon assignToRoom(String beaconId, String roomId);
 }

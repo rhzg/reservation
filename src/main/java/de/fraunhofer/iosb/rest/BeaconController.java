@@ -17,6 +17,7 @@ import de.fraunhofer.iosb.representation.BeaconRepresentation;
 import de.fraunhofer.iosb.services.BeaconService;
 import de.fraunhofer.iosb.services.RoomService;
 import de.fraunhofer.iosb.services.UserService;
+import de.fraunhofer.iosb.smartbuilding.SbBeacon;
 
 @Controller
 public class BeaconController {
@@ -41,9 +42,10 @@ public class BeaconController {
 		return "assignRoom";
 	}
 	
-	@PostMapping("/web/beacons/{beaconId}/assign/{roomId}")
-	public String assignBeaconToRoom(@PathVariable("beaconId") String beaconId, @PathVariable("roomId") String roomId, Model model) {
-		beaconService.assignToRoom(beaconId, roomId);
+	@PostMapping("/web/beacons/{beaconName}/assign/{roomId}")
+	public String assignBeaconToRoom(@PathVariable("beaconName") String beaconName, @PathVariable("roomId") String roomId, Model model) {
+		SbBeacon beacon = beaconService.assignToRoom(beaconName, roomId);
+		model.addAttribute("beacons", beaconService.getBeacons());
 		
 		return "redirect:/web/beacons";
 	}
