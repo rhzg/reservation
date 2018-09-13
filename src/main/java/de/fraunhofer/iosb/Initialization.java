@@ -83,8 +83,8 @@ public class Initialization implements CommandLineRunner {
         List<SbRoom> rl = SbFactory.getRoomList();
         for (SbRoom sbr : rl) {
             Room newRoom = new Room(sbr.getName(), sbr.getDescription(), sbr.getToken());
-            for (SbBeacon b: sbr.getAssignedBeacons()) {
-              String beaconName = b.getUUID() + ":" + b.getMajor() + ":" + b.getMinor();
+            for (SbBeacon b : sbr.getAssignedBeacons()) {
+                String beaconName = b.getUUID() + ":" + b.getMajor() + ":" + b.getMinor();
                 newRoom.getBleIds().add(beaconName);
             }
             repoRoom.save(newRoom);
@@ -99,38 +99,41 @@ public class Initialization implements CommandLineRunner {
 
     private void addToSensorThingsServer(Room room)
             throws URISyntaxException, ServiceFailureException, MalformedURLException {
-        Map<String, Long> bleBeaconMap = new HashMap<>();
-        Thing thing = new Thing();
-        thing.setName(room.getRoomID());
-        thing.setDescription(room.getName());
-
-        Location location = new Location();
-        location.setName("location name 1");
-        location.setDescription("location 1");
-        location.setLocation(new Point(-117.05, 51.05));
-        location.setEncodingType("application/vnd.geo+json");
-        thing.getLocations().add(location);
-
-        service.create(thing);
-        {
-            for (String ble : room.getBleIds()) {
-                UnitOfMeasurement um1 = new UnitOfMeasurement("Meter", "m",
-                        "http://www.qudt.org/qudt/owl/1.0.0/unit/Instances.html/Meter");
-                Datastream ds1 = new Datastream("datastream name 1", "datastream 1",
-                        "http://www.opengis.net/def/observationType/OGC-OM/2.0/OM_Measurement", um1);
-                ds1.setObservedProperty(new ObservedProperty("Proximity m",
-                        new URI("http://www.qudt.org/qudt/owl/1.0.0/unit/Instances.html/property"), "proximity"));
-                ds1.setSensor(new Sensor(ble, "Ble beacon of room", "application/pdf", "BLE proximity sensor"));
-                ds1.setThing(thing);
-                service.create(ds1);
-                Object idValue = ds1.getId().getValue();
-                if (idValue instanceof IdLong) {
-                    IdLong idl = (IdLong) idValue;
-                    bleBeaconMap.put(ble, idl.value);
-                }
-            }
-        }
-        room.setBleDataStream(bleBeaconMap);
+        LOG.error("not implemented");
+        // Map<String, Long> bleBeaconMap = new HashMap<>();
+        // Thing thing = new Thing();
+        // thing.setName(room.getRoomID());
+        // thing.setDescription(room.getName());
+        //
+        // Location location = new Location();
+        // location.setName("location name 1");
+        // location.setDescription("location 1");
+        // location.setLocation(new Point(-117.05, 51.05));
+        // location.setEncodingType("application/vnd.geo+json");
+        // thing.getLocations().add(location);
+        //
+        // service.create(thing);
+        // {
+        // for (String ble : room.getBleIds()) {
+        // UnitOfMeasurement um1 = new UnitOfMeasurement("Meter", "m",
+        // "http://www.qudt.org/qudt/owl/1.0.0/unit/Instances.html/Meter");
+        // Datastream ds1 = new Datastream("datastream name 1", "datastream 1",
+        // "http://www.opengis.net/def/observationType/OGC-OM/2.0/OM_Measurement", um1);
+        // ds1.setObservedProperty(new ObservedProperty("Proximity m",
+        // new URI("http://www.qudt.org/qudt/owl/1.0.0/unit/Instances.html/property"),
+        // "proximity"));
+        // ds1.setSensor(new Sensor(ble, "Ble beacon of room", "application/pdf", "BLE
+        // proximity sensor"));
+        // ds1.setThing(thing);
+        // service.create(ds1);
+        // Object idValue = ds1.getId().getValue();
+        // if (idValue instanceof IdLong) {
+        // IdLong idl = (IdLong) idValue;
+        // bleBeaconMap.put(ble, idl.value);
+        // }
+        // }
+        // }
+        // room.setBleDataStream(bleBeaconMap);
     }
 
 }
