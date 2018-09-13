@@ -10,21 +10,26 @@
 		<link rel="stylesheet"  href="../css/style.css"/>
 </head>	
 <body>
-	<h1>Beacon List</h1>
+	<!--/*/ <th:block th:include="header :: header"></th:block> /*/-->
+	<div class="table-responsive">
+		<table class="table table-bordered table-hover">
+			<tr><th>Beacon</th>
+				<th>Description</th>
+				<th>Room</th>
+				<th>Action</th>
+			</tr>
+			<tr th:each="beacon : ${beacons}">
+				<td th:text="${beacon.id}"></td>
+				<td th:text="${beacon.description}"></td>
+				<td th:text="${beacon.roomName}"></td>
+				<td><a role="button" th:href="@{/assignRoom(name=${beacon.id})}" class="btn btn-primary">assign room</a>
+				<a role="button" th:href="@{/web/beacons/delete/{id}(id=${beacon.id})}" onclick="return confirm('Are you sure you want to delete this item?');" class="btn btn-warning">delete</a></td>
+			</tr>
+		</table>
+	</div>
 
-	<table class="table table-bordered table-hover">
-		<tr>
-			<th>Beacon</th>
-			<th>Description</th>
-			<th>Room</th>
-		</tr>
-		<tr th:each="beacon : ${beacons}">
-			<td th:text="${beacon.name}"></td>
-			<td th:text="${beacon.description}"></td>
-			<td th:text="${beacon.roomName}"></td>
-			<td><a href="@{'/assignRoom'(id=${beacon.name})}">assign room</a></td>
-		</tr>
-	</table>
-
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>	
+<script src="../js/popup.js"></script>
 </body>
 </html>
