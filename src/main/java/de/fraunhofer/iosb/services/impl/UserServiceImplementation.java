@@ -1,8 +1,10 @@
 package de.fraunhofer.iosb.services.impl;
 
+import de.fraunhofer.iosb.entity.Role;
 import de.fraunhofer.iosb.entity.Room;
 import de.fraunhofer.iosb.entity.Term;
 import de.fraunhofer.iosb.entity.User;
+import de.fraunhofer.iosb.repository.RoleRepository;
 import de.fraunhofer.iosb.repository.RoomRepository;
 import de.fraunhofer.iosb.repository.UserRepository;
 import de.fraunhofer.iosb.representation.RoomRepresentation;
@@ -25,6 +27,9 @@ public class UserServiceImplementation implements UserService
 
     @Autowired
     private RoomRepository roomRepository;
+    
+    @Autowired
+    private RoleRepository roleRepository;
 
     @Autowired
     private RoomService roomService;
@@ -238,8 +243,16 @@ public class UserServiceImplementation implements UserService
     @Override
     @Transactional
     public User save(User user) {
-        if(repo.findByUsername(user.getUsername())==null)
-            return repo.save(user);
+        if(repo.findByUsername(user.getUsername())==null) {
+        	Room all = new Room("all", "http://localhost:8080/rooms/all", "nekis token");
+        	User savedUser = repo.save(user);
+        	Role admin = new Role();
+        	admin.setRoom(all);
+        	admin.setRole("admin");
+        	admin.setUser(savedUser);
+        	roleRepository.save(admin);
+        	return savedUser;
+        }
         else
             throw new IllegalArgumentException("User with that username already exists");
     }
