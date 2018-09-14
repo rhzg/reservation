@@ -14,14 +14,14 @@
 	<div class="table-responsive">
 		<table id="usrdetails" class="table table-bordered table-hover">
 		<tbody>		
-			<tr><td id="tdf"><b>Username   :</b></td><td> <span th:text="${user.username}"></span></td></tr>
-			<tr><td id="tdf"><b>FirstName  :</b></td><td> <span th:text="${user.name}"></span></td></tr>
-			<tr><td id="tdf"><b>Password   :</b></td><td> <span th:text="${user.password}"></span></td></tr>
-			<tr><td id="tdf"><b>Token      :</b></td><td> <span th:text="${user.token}"></span></td></tr>
-			<tr><td id="tdf"><b>NFC        :</b> </td><td><span th:text="${user.nfccode}"></span></td></tr>
-			<tr><td id="tdf"><b>Email      :</b></td><td> <span th:text="${user.email}"></span></td></tr>
-			<tr><td id="tdf"><b>Number     :</b></td><td> <span th:text="${user.number}"></span></td></tr>
-			<tr><td id="tdf"><b>Curent Room:</b></td><td> <span th:text="${user.curentRoom}"></span></td></tr>
+			<tr><td id="tdf"><b>Username     :</b></td><td> <span th:text="${user.username}"></span></td></tr>
+			<tr><td id="tdf"><b>Name         :</b></td><td> <span th:text="${user.name}"></span></td></tr>
+			<tr><td id="tdf"><b>Password     :</b></td><td> <span th:text="${user.password}"></span></td></tr>
+			<!--  <tr><td id="tdf"><b>Token  :</b></td><td> <span th:text="${user.token}"></span></td></tr>-->
+			<!--  <tr><td id="tdf"><b>NFC    :</b> </td><td><span th:text="${user.nfccode}"></span></td></tr>-->
+			<tr><td id="tdf"><b>Email        :</b></td><td> <span th:text="${user.email}"></span></td></tr>
+			<tr><td id="tdf"><b>Phone Number :</b></td><td> <span th:text="${user.number}"></span></td></tr>
+			<tr><td id="tdf"><b>Current Room :</b></td><td> <span th:text="${user.curentRoom}"></span></td></tr>
 			<tr><td colspan="2"  align="center"><a  id="editt"  role="button" class="btn btn-primary" href="#editusr" data-toggle="collapse">edit</a></td></tr>
 		</tbody>
 		</table>
@@ -40,20 +40,20 @@
 				    	<label for="pwd">Password:</label>
 				    	<input type="text" class="form-control" th:field="*{password}"/>
 				  	</div>
-				  	<div class="form-group">
+				  	<!--  <div class="form-group">
 				    	<label for="pwd">Token:</label>
 				    	<input type="text" class="form-control" th:field="*{token}"/>
-				  	</div>
-				  	<div class="form-group">
+				  	</div> -->
+				  	<!--  <div class="form-group">
 				    	<label for="pwd">CardID:</label>
 				    	<input type="text" class="form-control" th:field="*{nfccode}"/>
-				  	</div>
+				  	</div> -->
 				  	<div class="form-group">
 				    	<label for="pwd">Email:</label>
 				    	<input type="text" class="form-control" th:field="*{email}"/>
 				  	</div>
 				  	<div class="form-group">
-				    	<label for="pwd">Number:</label>
+				    	<label for="pwd">Phone Number:</label>
 				    	<input type="text" class="form-control" th:field="*{number}"/>
 				  	</div>
 			  		<button type="submit" class="btn btn-primary">Submit</button>
