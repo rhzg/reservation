@@ -14,12 +14,18 @@
 	<div class="table-responsive">
 		<table class="table table-bordered table-hover">
 			<tr><th>Beacon</th>
+				<th>UUID</th>
+				<th>Major</th>
+				<th>Minor</th>
 				<th>Description</th>
 				<th>Room</th>
 				<th>Action</th>
 			</tr>
 			<tr th:each="beacon : ${beacons}">
-				<td th:text="${beacon.id}"></td>
+				<td th:text="${beacon.name}"></td>
+				<td th:text="${beacon.UUID}"></td>
+				<td th:text="${beacon.major}"></td>
+				<td th:text="${beacon.minor}"></td>
 				<td th:text="${beacon.description}"></td>
 				<td th:text="${beacon.roomName}"></td>
 				<td><a role="button" th:href="@{/assignRoom(name=${beacon.id})}" class="btn btn-primary">assign room</a>
