@@ -2,12 +2,15 @@ package de.fraunhofer.iosb.entity;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+
+import lombok.Data;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-
+@Data
 @Entity
 public class User
 {
@@ -70,91 +73,4 @@ public class User
     public User(){
     }
 
-    public List<Term> getTerms() {
-        return terms;
-    }
-
-    public void setTerms(List<Term> terms) {
-        this.terms = terms;
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public String getToken() {
-        return token;
-    }
-
-    public void setToken(String token) {
-        this.token = token;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getNumber() {
-        return number;
-    }
-
-    public void setNumber(String number) {
-        this.number = number;
-    }
-
-    public Room getCurentRoom() {
-        return curentRoom;
-    }
-
-    public void setCurentRoom(Room curentRoom) {
-        this.curentRoom = curentRoom;
-    }
-
-    public Map<String, Room> getFavorites() {
-        return favorites;
-    }
-
-    public void setFavorites(Map<String, Room> favorites) {
-        this.favorites = favorites;
-    }
-
-    public List<Role> getRole() {
-        return role;
-    }
-
-    public void setRole(List<Role> role) {
-        this.role = role;
-    }
-
-    public void setNfccode(String nfccode) {
-        this.nfccode = nfccode;
-    }
-
-    public String getNfccode() {
-        return nfccode;
-    }
 }

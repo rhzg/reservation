@@ -4,8 +4,12 @@ import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+
+import lombok.Data;
+
 import java.util.*;
 
+@Data
 @Entity
 public class Room {
 
@@ -49,50 +53,4 @@ public class Room {
         this.token = token;
     }
 
-    public String getRoomID() {
-        return roomID;
-    }
-    public void setRoomID(String roomID) {
-        this.roomID = roomID;
-    }
-    public String getName() {
-        return name;
-    }
-    public void setName(String name) {
-        this.name = name;
-    }
-    public String getToken() {
-        return token;
-    }
-    public void setToken(String token) {
-        this.token = token;
-    }
-    public Boolean getOccupied() {
-        return occupied;
-    }
-    public void setOccupied(Boolean occupied) {
-        this.occupied = occupied;
-    }
-    public List<User> getCurentUsers() {
-        return curentUsers;
-    }
-    public List<Term> getTerms() {
-        return terms;
-    }
-
-    public Set<String> getBleIds() {
-        return bleIds;
-    }
-
-    public void setBleIds(Set<String> bleIds) {
-        this.bleIds = bleIds;
-    }
-
-    public Map<String, Long> getBleDataStream() {
-        return bleDataStream;
-    }
-
-    public void setBleDataStream(Map<String, Long> bleDataStream) {
-        this.bleDataStream = bleDataStream;
-    }
 }

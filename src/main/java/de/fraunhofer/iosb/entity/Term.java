@@ -1,11 +1,13 @@
 package de.fraunhofer.iosb.entity;
 
 import de.fraunhofer.iosb.entity.key.TermId;
+import lombok.Data;
 
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
+@Data
 @Entity
 public class Term
 {
@@ -38,43 +40,5 @@ public class Term
     public Term() {
     }
 
-    public TermId getTermID() {
-        return termID;
-    }
-
-    public void setTermID(TermId termID) {
-        this.termID = termID;
-    }
-
-    public Room getRoom() {
-        return room;
-    }
-
-    public void setRoom(Room room) {
-        this.room = room;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
-    }
-
-    public List<User> getUsers() {
-        return users;
-    }
-
-    public void setUsers(List<User> users) {
-        this.users = users;
-    }
+    
 }
