@@ -57,6 +57,15 @@
 				    	<label for="pwd">Phone Number:</label>
 				    	<input type="text" class="form-control" th:field="*{number}"/>
 				  	</div>
+				  	<div class="form-group">
+				    	<label for="pwd">Role:</label>
+				    	<!--<input type="checkbox" th:field="*{assignedrole}" value="admin" />
+				    		why does it not receive assignedRole? -->
+				    	 <select th:field="*{nfccode}">
+				    		<option value="standard">Standard</option>
+				    		<option value="admin">Admin</option>
+				    	</select> 
+				  	</div>
 			  		<button type="submit" class="btn btn-primary">Submit</button>
 				</form>
 			</div>
