@@ -248,7 +248,7 @@ public class UserServiceImplementation implements UserService
         	User savedUser = repo.save(user);
         	Role admin = new Role();
         	admin.setRoom(all);
-        	admin.setRole("admin");
+        	admin.setRole(savedUser.nfccode);
         	admin.setUser(savedUser);
         	roleRepository.save(admin);
         	return savedUser;
