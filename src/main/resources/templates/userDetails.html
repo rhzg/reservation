@@ -56,6 +56,15 @@
 				    	<label for="pwd">Phone Number:</label>
 				    	<input type="text" class="form-control" th:field="*{number}"/>
 				  	</div>
+				  	<div class="form-group">
+				    	<label for="pwd">Role:</label>
+				    	<!-- still the assignedRole problem -->
+				    	 <select th:field="*{nfccode}">
+				    	 	<option th:value="${nfccode}"/>
+				    		<option value="standard">Standard</option>
+				    		<option value="admin">Admin</option>
+				    	</select> 
+				  	</div>
 			  		<button type="submit" class="btn btn-primary">Submit</button>
 				</form>
 			</div>
