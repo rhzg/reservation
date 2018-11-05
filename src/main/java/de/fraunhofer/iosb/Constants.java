@@ -5,16 +5,21 @@ import de.fraunhofer.iosb.ilt.sta.model.Entity;
 import de.fraunhofer.iosb.ilt.sta.model.ext.EntityList;
 import de.fraunhofer.iosb.ilt.sta.service.SensorThingsService;
 import de.fraunhofer.iosb.ilt.sta.service.TokenManagerOpenIDConnect;
+import de.fraunhofer.iosb.ilt.symbiote.Config;
 import de.fraunhofer.iosb.ilt.symbiote.SymbIoTeClient;
 import de.fraunhofer.iosb.ilt.symbiote.educampus.CreateVirtualKeyRequest;
 import de.fraunhofer.iosb.smartbuilding.SbBeacon;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.context.annotation.Bean;
 
 import java.net.MalformedURLException;
 import java.net.URISyntaxException;
 import java.net.URL;
+import java.util.ResourceBundle;
+
 import org.apache.http.auth.AuthScope;
 import org.apache.http.auth.UsernamePasswordCredentials;
 import org.apache.http.client.CredentialsProvider;
@@ -53,6 +58,11 @@ public class Constants
     public static String USERNAME = "";
     public static String PASSWORD = "";
 
+    // symbIoTe configuration
+    private static String CORE_ADDRESS ="";
+    private static String KEYSTORE_PATH ="";
+    
+    
     public static SensorThingsService createService() throws MalformedURLException, URISyntaxException {
         return createService(BASE_URL);
     }
@@ -99,6 +109,18 @@ public class Constants
     		
     	}
 		return client;
+    }
+    
+    @ConfigurationProperties(prefix = "config")
+    @Bean
+    public Config getConfig() {
+    	ResourceBundle conf = ResourceBundle.getBundle("application");
+    	
+        return new Config(conf.getString("symbiote.coreAddress"), conf.getString("symbiote.keystorePath"), 
+        		conf.getString("symbiote.keystorePasswword"), conf.getString("symbiote.platformId"),
+        		conf.getString("symbiote.rapPluginId"), conf.getString("interworkingServiceUrl"),
+        		conf.getString("symbiote.paamOwnerUsername"), conf.getString("symbiote.paamOwnerPassword")
+        		);
     }
 
     private boolean createVirtualKey(CreateVirtualKeyRequest request) {
