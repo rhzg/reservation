@@ -5,6 +5,13 @@ import de.fraunhofer.iosb.ilt.sta.model.Entity;
 import de.fraunhofer.iosb.ilt.sta.model.ext.EntityList;
 import de.fraunhofer.iosb.ilt.sta.service.SensorThingsService;
 import de.fraunhofer.iosb.ilt.sta.service.TokenManagerOpenIDConnect;
+import de.fraunhofer.iosb.ilt.symbiote.SymbIoTeClient;
+import de.fraunhofer.iosb.ilt.symbiote.educampus.CreateVirtualKeyRequest;
+import de.fraunhofer.iosb.smartbuilding.SbBeacon;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.net.MalformedURLException;
 import java.net.URISyntaxException;
 import java.net.URL;
@@ -15,15 +22,29 @@ import org.apache.http.impl.client.BasicCredentialsProvider;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+
 /**
  *
  * @author scf
  */
 public class Constants
 {
+	private static final Logger LOGGER = LoggerFactory.getLogger(Constants.class);
+	
     //public static String BASE_URL = "http://localhost:8080/FROST-Server/v1.0";
     public static String BASE_URL = "http://symbiote.iosb.fraunhofer.de:8090/FROST-Server/v1.0";
     public static SensorThingsService service = null;
+    private static SymbIoTeClient client = null;
+    
+    @org.springframework.beans.factory.annotation.Value("${educampus.vizlore.defaultAuthorizationGroup}")
+    private String defaultAuthorizationGroup;
+    
+    @org.springframework.beans.factory.annotation.Value("${educampus.vizlore.createVirtualKeyServiceName}")
+    private String createVirtualKeyServiceName;
+    
+    @org.springframework.beans.factory.annotation.Value("${educampus.federationId}")
+    private String federationId;
 
     public static boolean USE_OPENID_CONNECT = false;
     public static boolean USE_BASIC_AUTH = false;
@@ -72,7 +93,28 @@ public class Constants
     	}
     	return service;
     }
+    
+    public static SymbIoTeClient getClient() {
+    	if (client == null) {
+    		
+    	}
+		return client;
+    }
 
+    private boolean createVirtualKey(CreateVirtualKeyRequest request) {
+        if (request.getAuthorized_groups().isEmpty()) {
+            request.getAuthorized_groups().add(defaultAuthorizationGroup);
+        }
+        try {
+            String result = client.invokeServiceByName(createVirtualKeyServiceName, federationId, request, true);
+            return Boolean.parseBoolean(result);
+        } catch (JsonProcessingException ex) {
+            LOGGER.warn("error invoking service: ", ex);;
+        }
+        return false;
+    }
+    
+    
     public static void deleteAll(SensorThingsService sts) throws ServiceFailureException {
         deleteAll(sts.things());
         deleteAll(sts.locations());
