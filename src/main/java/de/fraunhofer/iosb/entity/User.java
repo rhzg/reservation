@@ -40,6 +40,9 @@ public class User
     @Column(unique=true)
     public String assignedrole;
 
+    @Column(unique=true)
+    public String assignedrole;
+    
     @ManyToOne(optional=true)
     @JoinColumn(name="RoomID",referencedColumnName="roomID")
     private Room curentRoom;
