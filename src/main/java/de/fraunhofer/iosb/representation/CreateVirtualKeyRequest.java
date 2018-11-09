@@ -1,4 +1,4 @@
-package de.fraunhofer.iosb;
+package de.fraunhofer.iosb.representation;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
