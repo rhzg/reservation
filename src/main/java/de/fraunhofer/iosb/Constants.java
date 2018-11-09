@@ -106,14 +106,14 @@ public class Constants
     
     public static SymbIoTeClient getClient() {
     	if (client == null) {
-    		
+    		return new SymbIoTeClient(getConfig());
     	}
 		return client;
     }
     
     @ConfigurationProperties(prefix = "config")
     @Bean
-    public Config getConfig() {
+    public static Config getConfig() {
     	ResourceBundle conf = ResourceBundle.getBundle("application");
     	
         return new Config(conf.getString("symbiote.coreAddress"), conf.getString("symbiote.keystorePath"), 
