@@ -22,6 +22,8 @@ import org.springframework.stereotype.Service;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -53,6 +55,19 @@ public class TermServiceImplementation implements TermService
         TermId termId = new TermId(from, until, room.roomID);
         Term term = new Term(termId, title, room, user, users);
 
+        DateFormat dateFormat = new SimpleDateFormat("yyyy/mm/dd hh:mm");
+        String valid_from = dateFormat.format(from);
+        String valid_until = dateFormat.format(until);
+        List<String> auth_group = new ArrayList<String>();
+        auth_group.add(defaultAuthorizationGroup);
+        
+        for (User guest: users) {
+        	CreateVirtualKeyRequest request = new CreateVirtualKeyRequest(valid_from, valid_until,
+        																  guest.name, guest.email, auth_group);
+        	Boolean success = createVirtualKey(request);
+        	LOGGER.trace("Creating virtual key for {} was successful: {}", guest.email, success);
+        }
+        
         termRepository.save(term);
         user.getTerms().add(term);
         userRepository.save(user);
