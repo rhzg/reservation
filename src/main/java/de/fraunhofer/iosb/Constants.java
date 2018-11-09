@@ -41,15 +41,6 @@ public class Constants
     public static String BASE_URL = "http://symbiote.iosb.fraunhofer.de:8090/FROST-Server/v1.0";
     public static SensorThingsService service = null;
     private static SymbIoTeClient client = null;
-    
-    @org.springframework.beans.factory.annotation.Value("${educampus.vizlore.defaultAuthorizationGroup}")
-    private String defaultAuthorizationGroup;
-    
-    @org.springframework.beans.factory.annotation.Value("${educampus.vizlore.createVirtualKeyServiceName}")
-    private String createVirtualKeyServiceName;
-    
-    @org.springframework.beans.factory.annotation.Value("${educampus.federationId}")
-    private String federationId;
 
     public static boolean USE_OPENID_CONNECT = false;
     public static boolean USE_BASIC_AUTH = false;
@@ -123,18 +114,7 @@ public class Constants
         		);
     }
 
-    private boolean createVirtualKey(CreateVirtualKeyRequest request) {
-        if (request.getAuthorized_groups().isEmpty()) {
-            request.getAuthorized_groups().add(defaultAuthorizationGroup);
-        }
-        try {
-            String result = client.invokeServiceByName(createVirtualKeyServiceName, federationId, request, true);
-            return Boolean.parseBoolean(result);
-        } catch (JsonProcessingException ex) {
-            LOGGER.warn("error invoking service: ", ex);;
-        }
-        return false;
-    }
+
     
     
     public static void deleteAll(SensorThingsService sts) throws ServiceFailureException {

@@ -1,9 +1,12 @@
 package de.fraunhofer.iosb.services.impl;
 
+import de.fraunhofer.iosb.Constants;
 import de.fraunhofer.iosb.entity.Room;
 import de.fraunhofer.iosb.entity.Term;
 import de.fraunhofer.iosb.entity.User;
 import de.fraunhofer.iosb.entity.key.TermId;
+import de.fraunhofer.iosb.ilt.symbiote.SymbIoTeClient;
+import de.fraunhofer.iosb.ilt.symbiote.educampus.CreateVirtualKeyRequest;
 import de.fraunhofer.iosb.repository.TermRepository;
 import de.fraunhofer.iosb.repository.UserRepository;
 import de.fraunhofer.iosb.representation.TermDetailsResponse;
@@ -11,8 +14,13 @@ import de.fraunhofer.iosb.representation.TermsResponse;
 import de.fraunhofer.iosb.representation.UserRepresentation;
 import de.fraunhofer.iosb.services.TermService;
 import de.fraunhofer.iosb.services.UserService;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import com.fasterxml.jackson.core.JsonProcessingException;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -21,6 +29,15 @@ import java.util.List;
 @Service
 public class TermServiceImplementation implements TermService
 {
+	private static final Logger LOGGER = LoggerFactory.getLogger(TermService.class);
+	
+	@org.springframework.beans.factory.annotation.Value("${educampus.vizlore.defaultAuthorizationGroup}")
+    private String defaultAuthorizationGroup;
+	@org.springframework.beans.factory.annotation.Value("${educampus.vizlore.createVirtualKeyServiceName}")
+    private String createVirtualKeyServiceName;
+	@org.springframework.beans.factory.annotation.Value("${educampus.federationId}")
+    private String federationId;
+	
     @Autowired
     TermRepository termRepository;
 
@@ -78,4 +95,20 @@ public class TermServiceImplementation implements TermService
         UserRepresentation initUser = new UserRepresentation(term1.getUser().getName(), term1.getUser().getUsername());
         return new TermDetailsResponse(term, initUser, userRepresentations);
     }
+    
+    
+    private boolean createVirtualKey(CreateVirtualKeyRequest request) {
+        if (request.getAuthorized_groups().isEmpty()) {
+            request.getAuthorized_groups().add(defaultAuthorizationGroup);
+        }
+        try {
+        	SymbIoTeClient client = Constants.getClient();
+            String result = client.invokeServiceByName(createVirtualKeyServiceName, federationId, request, true);
+            return Boolean.parseBoolean(result);
+        } catch (JsonProcessingException ex) {
+            LOGGER.warn("error invoking service: ", ex);;
+        }
+        return false;
+    }
+    
 }
