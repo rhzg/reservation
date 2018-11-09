@@ -116,10 +116,10 @@ public class Constants
     public static Config getConfig() {
     	ResourceBundle conf = ResourceBundle.getBundle("application");
     	
-        return new Config(conf.getString("symbiote.coreAddress"), conf.getString("symbiote.keystorePath"), 
-        		conf.getString("symbiote.keystorePasswword"), conf.getString("symbiote.platformId"),
-        		conf.getString("symbiote.rapPluginId"), conf.getString("interworkingServiceUrl"),
-        		conf.getString("symbiote.paamOwnerUsername"), conf.getString("symbiote.paamOwnerPassword")
+        return new Config(conf.getString("config.coreAddress"), conf.getString("config.keystorePath"), 
+        		conf.getString("config.keystorePasswword"), conf.getString("config.platformId"),
+        		conf.getString("config.rapPluginId"), conf.getString("config.interworkingServiceUrl"),
+        		conf.getString("config.paamOwnerUsername"), conf.getString("config.paamOwnerPassword")
         		);
     }
 
