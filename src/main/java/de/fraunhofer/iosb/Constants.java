@@ -1,23 +1,9 @@
 package de.fraunhofer.iosb;
-import de.fraunhofer.iosb.ilt.sta.ServiceFailureException;
-import de.fraunhofer.iosb.ilt.sta.dao.BaseDao;
-import de.fraunhofer.iosb.ilt.sta.model.Entity;
-import de.fraunhofer.iosb.ilt.sta.model.ext.EntityList;
-import de.fraunhofer.iosb.ilt.sta.service.SensorThingsService;
-import de.fraunhofer.iosb.ilt.sta.service.TokenManagerOpenIDConnect;
-import de.fraunhofer.iosb.ilt.symbiote.Config;
-import de.fraunhofer.iosb.ilt.symbiote.SymbIoTeClient;
-import de.fraunhofer.iosb.ilt.symbiote.educampus.CreateVirtualKeyRequest;
-import de.fraunhofer.iosb.smartbuilding.SbBeacon;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.context.annotation.Bean;
-
 import java.net.MalformedURLException;
 import java.net.URISyntaxException;
 import java.net.URL;
+import java.util.Arrays;
+import java.util.List;
 import java.util.ResourceBundle;
 
 import org.apache.http.auth.AuthScope;
@@ -26,8 +12,23 @@ import org.apache.http.client.CredentialsProvider;
 import org.apache.http.impl.client.BasicCredentialsProvider;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.context.annotation.Bean;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
+import de.fraunhofer.iosb.ilt.sta.ServiceFailureException;
+import de.fraunhofer.iosb.ilt.sta.dao.BaseDao;
+import de.fraunhofer.iosb.ilt.sta.model.Entity;
+import de.fraunhofer.iosb.ilt.sta.model.ext.EntityList;
+import de.fraunhofer.iosb.ilt.sta.service.SensorThingsService;
+import de.fraunhofer.iosb.ilt.sta.service.TokenManagerOpenIDConnect;
+import de.fraunhofer.iosb.ilt.symbiote.Config;
+import de.fraunhofer.iosb.ilt.symbiote.SymbIoTeClient;
+import de.fraunhofer.iosb.ilt.symbiote.User;
+//import eu.h2020.symbiote.cloud.model.internal.Subscription;
+//import eu.h2020.symbiote.rapplugin.messaging.rap.RapPlugin;
 
 /**
  *
@@ -52,6 +53,19 @@ public class Constants
     // symbIoTe configuration
     private static String CORE_ADDRESS ="";
     private static String KEYSTORE_PATH ="";
+    
+    private static final List<User> KNOWN_USERS = Arrays.asList(new User("mjacoby", "#openIoT", "michael.jacoby@iosb.fraunhofer.de"));
+//    public static final Subscription L2_DEVICE_SUBSCRIPTION = new Subscription() {
+//        {
+//            getResourceType().put("sensor", true);
+//            getResourceType().put("actuator", false);
+//            getResourceType().put("service", true);
+//            getResourceType().put("device", true);
+//        }
+//    };
+    
+    //@Autowired
+    //private RapPlugin rapPlugin;
     
     
     public static SensorThingsService createService() throws MalformedURLException, URISyntaxException {
@@ -97,7 +111,11 @@ public class Constants
     
     public static SymbIoTeClient getClient() {
     	if (client == null) {
-    		return new SymbIoTeClient(getConfig());
+    		client = new SymbIoTeClient(getConfig());
+    		client.signIn(KNOWN_USERS.get(0));
+//    		L2_DEVICE_SUBSCRIPTION.setPlatformId(getConfig().getPlatformId());
+//            client.registerSubscription(L2_DEVICE_SUBSCRIPTION);
+    		return client;
     	}
 		return client;
     }
