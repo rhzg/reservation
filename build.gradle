@@ -29,6 +29,8 @@ repositories {
 }
 
 
+
+
 dependencies {
 	compile('de.fraunhofer.iosb.ilt:FROST-Client:0.18')
 	compile('de.fraunhofer.iosb:SmartBuildingAPI:0.0.1-SNAPSHOT')
@@ -40,6 +42,8 @@ dependencies {
 	compile('org.springframework.boot:spring-boot-starter-thymeleaf')
 	compile('org.springframework.boot:spring-boot-starter-web')
 	compile('org.springframework.boot:spring-boot-starter-security')
+
+	
 	compile 'joda-time:joda-time:2.9.9'
 	runtime('com.h2database:h2')
 	//runtime('mysql:mysql-connector-java')
