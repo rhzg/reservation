@@ -1,6 +1,7 @@
 package de.fraunhofer.iosb.rest;
 
 
+import de.fraunhofer.iosb.entity.Room;
 import de.fraunhofer.iosb.entity.User;
 import de.fraunhofer.iosb.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,13 +11,25 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import de.fraunhofer.iosb.services.TermService;
+import de.fraunhofer.iosb.services.RoomService;
+
 import java.security.Principal;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 @Controller
 public class UserController
 {
     @Autowired
     UserService service;
+    
+    @Autowired
+    TermService termService;
+    
+    @Autowired
+    RoomService roomService;
 
     @RequestMapping("/web/users")
     public String userIndex(Model model, Model model1, Principal principal)
@@ -82,6 +95,7 @@ public class UserController
 
     @RequestMapping(value= "/web/user/new", method = RequestMethod.POST)
     public String newUser(User user){
+
         if(service.notexists(user.getUsername())){
             service.save(user);
             return "redirect:/web/users";
