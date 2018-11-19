@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -32,9 +33,12 @@ public class LoginServiceImplementation implements LoginService
         if(user == null)
             return false;
 
+        BCrypt hashGenerator = new BCrypt();
+        String hashedPass = hashGenerator.hashpw(password, BCrypt.gensalt());
+        
         BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
-        if(!passwordEncoder.matches(password, user.getPassword()))
+        if(!passwordEncoder.matches(hashedPass, user.getPassword()))
             return false;
 
         return true;
