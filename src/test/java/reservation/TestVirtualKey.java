@@ -9,6 +9,7 @@ import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -52,11 +53,35 @@ public class TestVirtualKey {
 
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
-		user1 = new User("admin@fer.hr", "$2a$06$/TmUi.A5awl8wBaqkjbHtuInaEGn8ly4onEwPkK/dBy3YK6MXWebq",
-                "Admin Admin", "admin@fer.hr", "0");
-        userRepo.save(user1);
+		//user1 = new User("admin@fer.hr", "$2a$06$/TmUi.A5awl8wBaqkjbHtuInaEGn8ly4onEwPkK/dBy3YK6MXWebq",
+        //        "Admin Admin", "admin@fer.hr", "0");
+        //userRepo.save(user1);
         
-        Room all = new Room("all", "http://localhost:8080/rooms/all", "neki token");
+             
+                
+        
+	}
+
+	@AfterClass
+	public static void tearDownAfterClass() throws Exception {
+	}
+
+	@Before
+	public void setUp() throws Exception {
+	}
+
+	@After
+	public void tearDown() throws Exception {
+	}
+
+	@Ignore
+	@Test
+	public void testTheKey() {
+		
+		
+		User user1 = userService.findUser("admin1@fer.hr");   
+		
+		Room all = new Room("all", "http://localhost:8080/rooms/all", "neki token");
         repoRoom.save(all);
 
 
@@ -83,22 +108,8 @@ public class TestVirtualKey {
     	title = "Hello";
     	
     	termService.addTerm(user1, list, rooms.get(0), from, until, title);
-	}
-
-	@AfterClass
-	public static void tearDownAfterClass() throws Exception {
-	}
-
-	@Before
-	public void setUp() throws Exception {
-	}
-
-	@After
-	public void tearDown() throws Exception {
-	}
-
-	@Test
-	public void testTheKey() {
+		
+		
 		termService.addTerm(user1, list, rooms.get(0), from, until, title);
 	}
 
