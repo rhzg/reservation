@@ -1,4 +1,7 @@
 package de.fraunhofer.iosb;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.PrintStream;
 import java.net.MalformedURLException;
 import java.net.URISyntaxException;
 import java.net.URL;
@@ -27,6 +30,10 @@ import de.fraunhofer.iosb.ilt.sta.service.TokenManagerOpenIDConnect;
 import de.fraunhofer.iosb.ilt.symbiote.Config;
 import de.fraunhofer.iosb.ilt.symbiote.SymbIoTeClient;
 import de.fraunhofer.iosb.ilt.symbiote.User;
+
+
+
+import org.bouncycastle.jce.provider.BouncyCastleProvider;
 //import eu.h2020.symbiote.cloud.model.internal.Subscription;
 //import eu.h2020.symbiote.rapplugin.messaging.rap.RapPlugin;
 
@@ -37,6 +44,7 @@ import de.fraunhofer.iosb.ilt.symbiote.User;
 public class Constants
 {
 	private static final Logger LOGGER = LoggerFactory.getLogger(Constants.class);
+	
 	
     //public static String BASE_URL = "http://localhost:8080/FROST-Server/v1.0";
     public static String BASE_URL = "http://symbiote.iosb.fraunhofer.de:8090/FROST-Server/v1.0";
@@ -49,6 +57,24 @@ public class Constants
     public static String CLIENT_ID = "";
     public static String USERNAME = "";
     public static String PASSWORD = "";
+    
+//	@org.springframework.beans.factory.annotation.Value("${config.coreAddress}")
+//    private static String coreAddress;
+//	@org.springframework.beans.factory.annotation.Value("${config.keystorePath}")
+//    private static String keystorePath;
+//	@org.springframework.beans.factory.annotation.Value("${config.keystorePasswword}")
+//    private static String keystorePasswword;
+//	@org.springframework.beans.factory.annotation.Value("${config.platformId}")
+//    private static String platformId;
+//	@org.springframework.beans.factory.annotation.Value("${config.rapPluginId}")
+//    private static String rapPluginId;
+//	@org.springframework.beans.factory.annotation.Value("${config.interworkingServiceUrl}")
+//    private static String interworkingServiceUrl;
+//	@org.springframework.beans.factory.annotation.Value("${config.paamOwnerUsername}")
+//    private static String paamOwnerUsername;
+//	@org.springframework.beans.factory.annotation.Value("${config.paamOwnerPassword}")
+//    private static String paamOwnerPassword;
+	
 
     // symbIoTe configuration
     private static String CORE_ADDRESS ="";
@@ -109,10 +135,17 @@ public class Constants
     	return service;
     }
     
-    public static SymbIoTeClient getClient() {
+    public static SymbIoTeClient getClient() throws FileNotFoundException {
+    	
+    	//System.setOut(new PrintStream(new FileOutputStream("output.txt")));
     	if (client == null) {
-    		client = new SymbIoTeClient(getConfig());
-    		client.signIn(KNOWN_USERS.get(0));
+    		try {
+    			client = new SymbIoTeClient(getConfig());
+    			client.signIn(KNOWN_USERS.get(0));
+    		}
+    		catch (Exception e) {
+    			System.err.println(e);
+    		}
 //    		L2_DEVICE_SUBSCRIPTION.setPlatformId(getConfig().getPlatformId());
 //            client.registerSubscription(L2_DEVICE_SUBSCRIPTION);
     		return client;
@@ -123,13 +156,20 @@ public class Constants
     @ConfigurationProperties(prefix = "config")
     @Bean
     public static Config getConfig() {
-    	ResourceBundle conf = ResourceBundle.getBundle("application");
+    	// ResourceBundle conf = ResourceBundle.getBundle("application");
     	
-        return new Config(conf.getString("config.coreAddress"), conf.getString("config.keystorePath"), 
+//    	Config config = new Config(coreAddress, keystorePath, keystorePasswword,
+//    							   platformId, rapPluginId, interworkingServiceUrl,
+//    							   paamOwnerUsername, paamOwnerPassword);
+    	
+        /* return new Config(conf.getString("config.coreAddress"), conf.getString("config.keystorePath"), 
         		conf.getString("config.keystorePasswword"), conf.getString("config.platformId"),
         		conf.getString("config.rapPluginId"), conf.getString("config.interworkingServiceUrl"),
         		conf.getString("config.paamOwnerUsername"), conf.getString("config.paamOwnerPassword")
-        		);
+        		); */
+//    	return config;
+    	return new Config();
+    	
     }
 
 

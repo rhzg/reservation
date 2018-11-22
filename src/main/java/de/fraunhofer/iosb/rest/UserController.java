@@ -1,8 +1,12 @@
 package de.fraunhofer.iosb.rest;
 
 
+import de.fraunhofer.iosb.entity.Role;
 import de.fraunhofer.iosb.entity.Room;
 import de.fraunhofer.iosb.entity.User;
+import de.fraunhofer.iosb.repository.RoleRepository;
+import de.fraunhofer.iosb.repository.RoomRepository;
+import de.fraunhofer.iosb.repository.UserRepository;
 import de.fraunhofer.iosb.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -30,6 +34,12 @@ public class UserController
     
     @Autowired
     RoomService roomService;
+    
+	@Autowired
+    private static RoomRepository roomRepo;
+	
+	@Autowired
+    private static RoleRepository roleRepo;
 
     @RequestMapping("/web/users")
     public String userIndex(Model model, Model model1, Principal principal)
@@ -95,6 +105,38 @@ public class UserController
 
     @RequestMapping(value= "/web/user/new", method = RequestMethod.POST)
     public String newUser(User user){
+    	
+//    	User user1 = service.findUser("admin1@fer.hr");   
+		
+//		Room all = new Room("all", "http://localhost:8080/rooms/all", "neki token");
+//        roomRepo.save(all);
+//
+//
+//        Role roleAdmin = new Role();
+//        roleAdmin.setRoom(all);
+//        roleAdmin.setRole("admin");
+//        roleAdmin.setUser(user1);
+//        roleRepo.save(roleAdmin);
+        
+        //userService.save(user);
+    	
+//    	Date from = new Date();
+//    	User visitor = new User("dada", "dada", "dada", "da@da.com", "0");
+//    	//service.save(visitor);
+//    	ArrayList<User> list = new ArrayList<User>();
+//    	//list.add(visitor);
+//    	//list.add(user);
+//    	list.add(user1);
+//    	
+//    	ArrayList<Room> rooms = (ArrayList<Room>) roomService.findAll();
+//    	
+//    	Date until = new Date();
+//    	
+//    	String title = "Hello";
+//    	
+//    	termService.addTerm(user1, list, rooms.get(0), from, until, title);
+//    	
+//    	return "redirect:/web/users";
 
         if(service.notexists(user.getUsername())){
             service.save(user);

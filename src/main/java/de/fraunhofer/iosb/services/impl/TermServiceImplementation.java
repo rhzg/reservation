@@ -23,6 +23,7 @@ import org.springframework.stereotype.Service;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 
+import java.io.FileNotFoundException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -65,8 +66,15 @@ public class TermServiceImplementation implements TermService
         for (User guest: users) {
         	CreateVirtualKeyRequest request = new CreateVirtualKeyRequest(valid_from, valid_until,
         																  guest.name, guest.email, auth_group);
-        	Boolean success = createVirtualKey(request);
-        	LOGGER.trace("Creating virtual key for {} was successful: {}", guest.email, success);
+        	Boolean success;
+			try {
+				success = createVirtualKey(request);
+				LOGGER.trace("Creating virtual key for {} was successful: {}", guest.email, success);
+			} catch (FileNotFoundException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+        	
         }
         
         termRepository.save(term);
@@ -113,7 +121,7 @@ public class TermServiceImplementation implements TermService
     }
     
     
-    private boolean createVirtualKey(CreateVirtualKeyRequest request) {
+    private boolean createVirtualKey(CreateVirtualKeyRequest request) throws FileNotFoundException {
         if (request.getAuthorized_groups().isEmpty()) {
             request.getAuthorized_groups().add(defaultAuthorizationGroup);
         }
