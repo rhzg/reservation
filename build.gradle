@@ -4,6 +4,7 @@ buildscript {
 	}
 	repositories {
 		mavenCentral()
+		maven { url "https://jitpack.io" }
 	}
 	dependencies {
 		classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
@@ -29,6 +30,7 @@ repositories {
 	flatDir {
         dirs 'libs'
     }
+    maven { url 'https://jitpack.io' }
 }
 
 
@@ -44,6 +46,12 @@ dependencies {
 	compile('org.springframework.boot:spring-boot-starter-web')
 	compile('org.springframework.boot:spring-boot-starter-security')
 	compile (name:'SymbIoTeClient-0.1', ext:'jar')
+	compile (name:'SymbIoTeSecurity-27.7.0-SNAPSHOT', ext:'jar')
+	compile (name:'SymbIoTeLibraries-5.31.0-SNAPSHOT', ext:'jar')
+	compile (name:'bcprov-jdk16-1.45', ext:'jar')
+	
+	//compile 'com.github.symbiote-h2020:SymbIoTeClient:1.2.0'
+	
 	compile 'joda-time:joda-time:2.9.9'
 	runtime('com.h2database:h2')
 	//runtime('mysql:mysql-connector-java')
